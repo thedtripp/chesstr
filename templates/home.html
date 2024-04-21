@@ -1,0 +1,36 @@
+<!doctype html>
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="{{ url_for('static', filename='chessboardjs-1.0.0/js/chessboard-1.0.0.js') }}"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='chessboardjs-1.0.0/css/chessboard-1.0.0.css') }}">
+</head>
+
+<title>chesstr</title>
+<body>
+
+
+<div class="container">
+
+    <h1>Chesstr</h1>
+
+    {% for item in data %}
+        <meta id="meta_{{ item.id }}" data-name="{{item.id}}" data-other="{{item.answer}}">
+        <p>{{ item.opening }}</p>
+        <div id="{{ item.id }}" style="width: 400px"></div>
+        <script>
+            var board = Chessboard('{{ item.id }}', '{{ item.position }}')
+        </script>
+        <br>
+        {% for move in item.moves %}
+        <button>
+            <p>{{ move }}</p>
+        </button> 
+        {% endfor %}
+
+        <br>
+        <hr>
+    {% endfor %}
+</div>
+</body>
