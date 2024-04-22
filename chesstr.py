@@ -28,5 +28,9 @@ challenges=[
 def demo():
     return render_template('home.html', data=challenges)
 
+@app.route("/test")
+def test():
+    return render_template('test.html')
+
 if __name__ == "__main__":
     Flask.run(app, debug=True)
