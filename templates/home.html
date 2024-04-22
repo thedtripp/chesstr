@@ -6,26 +6,29 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='chessboardjs-1.0.0/css/chessboard-1.0.0.css') }}">
     <link rel="shortcut icon" href="{{ url_for('static', filename='img/rook.png') }}">
+    <title>chesstr</title>
 </head>
 
-<title>chesstr</title>
 <body>
-
-
-<div class="container">
-
+<div class="chesstr-container">
     <h1>Chesstr</h1>
-
     {% for item in data %}
-        <p>{{ item.opening }}</p>
-        <div id="{{ item.id }}" style="width: 400px"></div>
-        <p id="result{{ item.id }}">What's the next move?</p>
-        <button id="reset{{ item.id }}" disabled>Reset</button>
+
+        <div class="challenge-container">
+            <div id="{{ item.id }}" class="challenge-board" style="width: 400px"></div>
+            <div class="challenge-details-container">
+                <p class="challenge-details-title">{{ item.opening }}</p>
+                <p id="result{{ item.id }}" class="challenge-details-status-message">What's the next move?</p>
+                <button id="reset{{ item.id }}" class="challenge-details-reset-button" disabled>Reset</button>
+            </div>
+        </div>
         <script>
             $('#reset{{ item.id }}').on('click', function () {
                 board{{ item.id }}.position('{{ item.position }}');
                 $("#result{{ item.id }}").text("What's the next move?");
-                $('#reset{{ item.id }}').html("Reset");
+                $(this).html("Reset");
+                $(this).prop('disabled', true);
+
             })
             function onChange (oldPos, newPos) {
                 if(Chessboard.objToFen(newPos).toString() == "{{ item.result }}")
@@ -39,7 +42,6 @@
 
                 }
                 $('#reset{{ item.id }}').removeAttr('disabled');
-
             }
             var config = {
                 draggable: true,
@@ -49,9 +51,7 @@
             }
             var board{{ item.id }} = Chessboard('{{ item.id }}', config)
         </script>
-
         <br>
-        <hr>
     {% endfor %}
 </div>
 </body>
