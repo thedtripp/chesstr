@@ -1,4 +1,9 @@
+body {
+    background-color: black;
+}
+
 .chesstr-container {
+    color: bisque;
     margin: auto;
     width: 650px;
 }
@@ -8,12 +13,13 @@
     display: flex;
     margin: auto;
     width: 650px;
-    color: bisque;
     padding: 15px;
+    border-radius: 8px;
 
 }
 
 .challenge-board {
+
 }
 
 .challenge-details-container {
