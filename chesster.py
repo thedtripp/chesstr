@@ -9,16 +9,20 @@ challenges=[
     {
         'id': '1',
         'opening': 'Grand-Prix Attack',
-        'position': 'rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 0 2',
+        'position': 'rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR',
+        'last' : 'c5',
         'moves': ['Nc3', 'e4', 'd4', 'f4', 'Nf3'],
-        'answer': 'Nc3'
+        'answer': 'Nc3',
+        'result': 'rnbqkbnr/pp1ppppp/8/2p5/4P3/2N5/PPPP1PPP/R1BQKBNR'
     },
     {
         'id': '2',
         'opening': 'Grand-Prix Attack',
-        'position': 'r1bqkbnr/pp1ppppp/2n5/2p5/4P3/2N5/PPPP1PPP/R1BQKBNR w KQkq - 2 3',
+        'position': 'r1bqkbnr/pp1ppppp/2n5/2p5/4P3/2N5/PPPP1PPP/R1BQKBNR',
+        'last' : 'Nc6',
         'moves': ['Nc3', 'e4', 'd4', 'f4', 'Nf3'],
-        'answer' : 'f4'
+        'answer' : 'f4',
+        'result': 'r1bqkbnr/pp1ppppp/2n5/2p5/4PP2/2N5/PPPP2PP/R1BQKBNR'
     }
 ]
 
