@@ -8,6 +8,12 @@ body {
     width: 650px;
 }
 
+.chesstr-container a {
+    text-decoration: none;
+    color: inherit; /* This will make the link color inherit from its parent element */
+}
+
+
 .challenge-container {
     background-color: rgb(60, 60, 60);
     display: flex;
@@ -38,6 +44,6 @@ body {
 
 }
 
-.challenge-details-reset-button {
+.challenge-details-button {
 
 }

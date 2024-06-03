@@ -538,6 +538,16 @@
   // Config
   // ---------------------------------------------------------------------------
 
+  // Function to get the base URL
+  function getBaseUrl() {
+    return window.location.origin;
+  }
+
+  // Function to get the static file path
+  function getStaticFilePath(relativePath) {
+    return getBaseUrl() + '/' + relativePath;
+  }
+
   function expandConfigArgumentShorthand (config) {
     if (config === 'start') {
       config = {position: deepCopy(START_POSITION)}
@@ -576,7 +586,7 @@
     // default piece theme is wikipedia
     if (!config.hasOwnProperty('pieceTheme') ||
         (!isString(config.pieceTheme) && !isFunction(config.pieceTheme))) {
-      config.pieceTheme = 'static/chessboardjs-1.0.0/img/chesspieces/wikipedia/{piece}.png'
+      config.pieceTheme = getStaticFilePath('static/chessboardjs-1.0.0/img/chesspieces/wikipedia/{piece}.png');
     }
 
     // animation speeds

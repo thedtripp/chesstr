@@ -12,14 +12,15 @@
 
 <body>
     <div class="chesstr-container">
-        <h1>Chesstr</h1>
+        <a href="/"><h1>Chesstr</h1></a>
 
         <div class="challenge-container">
             <div id="{{ challenge.id }}" class="challenge-board" style="width: 400px"></div>
             <div class="challenge-details-container">
                 <p class="challenge-details-title">{{ challenge.opening }}</p>
                 <p id="result{{ challenge.id }}" class="challenge-details-status-message">What's the next move?</p>
-                <button id="reset{{ challenge.id }}" class="challenge-details-reset-button" disabled>Reset</button>
+                <button id="reset{{ challenge.id }}" class="challenge-details-button" disabled>Reset</button>
+                <a href="/challenge/{{ challenge.next }}"><button id="next{{ challenge.id }}" class="challenge-details-button">Next</button></a>
             </div>
         </div>
 
