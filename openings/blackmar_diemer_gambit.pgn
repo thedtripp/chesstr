@@ -1,0 +1,10 @@
+[Event "Blackmar-Diemer Gambit"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[Source "github.com/lichess-org/chess-openings (CC0 1.0)"]
+
+1. d4 d5 2. e4 dxe4 3. Nc3 ( 3. f3 ) ( 3. Be3 ) ( 3. Bc4 ) 3... Nf6 ( 3... e5 4. dxe5 ( 4. Nxe4 ) ( 4. Nge2 ) ( 4. Qh5 ) ( 4. Be3 ) ) ( 3... f5 ) ( 3... c5 ) ( 3... Bf5 4. f3 Nf6 5. Bc4 ) 4. Be3 ( 4. Bg5 Bf5 5. Bxf6 exf6 6. g4 Bg6 7. Qe2 Bb4 8. Qb5+ ) *

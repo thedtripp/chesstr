@@ -1,0 +1,10 @@
+[Event "Bogo-Indian Defense"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[Source "github.com/lichess-org/chess-openings (CC0 1.0)"]
+
+1. d4 Nf6 2. c4 e6 3. Nf3 ( 3. g3 Bb4+ 4. Bd2 Be7 5. Bg2 d5 6. Nf3 O-O ( 6... Nbd7 7. O-O O-O 8. Qc2 c6 9. b3 ( 9. Rc1 ) ( 9. Rd1 h6 ) ) 7. O-O ( 7. Qc2 c6 8. O-O ) ) 3... Bb4+ ( 3... b6 4. g3 Bb7 5. Bg2 Bb4+ 6. Bd2 Bxd2+ 7. Qxd2 O-O 8. Nc3 Ne4 9. Qc2 Nxc3 10. Ng5 ) ( 3... d5 4. g3 Bb4+ 5. Bd2 Be7 6. Bg2 O-O 7. O-O c6 8. Qc2 Nbd7 9. Bf4 b6 10. Nbd2 Ba6 ) 4. Bd2 ( 4. Nbd2 ) ( 4. Nfd2 ) 4... Bxd2+ ( 4... Nc6 ) ( 4... Qe7 ) ( 4... Be7 ) ( 4... c5 ) ( 4... a5 ) *

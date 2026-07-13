@@ -1,4 +1,4 @@
-[Event "Queen's Gambit"]
+[Event "Center Game Accepted"]
 [Site "?"]
 [Date "????.??.??"]
 [Round "?"]
@@ -7,4 +7,4 @@
 [Result "*"]
 [Source "github.com/lichess-org/chess-openings (CC0 1.0)"]
 
-1. d4 d5 2. c4 *
+1. e4 e5 2. d4 exd4 *

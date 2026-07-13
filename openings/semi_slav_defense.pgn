@@ -1,0 +1,10 @@
+[Event "Semi-Slav Defense"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[Source "github.com/lichess-org/chess-openings (CC0 1.0)"]
+
+1. d4 ( 1. Nf3 d5 2. e3 Nf6 3. c4 c6 4. Nc3 e6 5. b3 Bd6 6. Bb2 O-O 7. d4 Nbd7 ) 1... d5 ( 1... Nf6 2. c4 e6 3. Nf3 d5 4. Nc3 c6 5. Bg5 dxc4 6. e4 b5 7. e5 h6 8. Bh4 g5 9. Nxg5 Nd5 ( 9... hxg5 10. Bxg5 Nbd7 11. Qf3 ) ) 2. c4 ( 2. Nf3 Nf6 3. c4 c6 4. e3 ( 4. Nc3 e6 5. e3 Ne4 ( 5... Nbd7 6. Bd3 dxc4 7. Bxc4 b5 8. Bd3 a6 9. e4 c5 10. e5 cxd4 11. Nxb5 Nxe5 12. Nxe5 axb5 13. O-O ) 6. Bd3 f5 ) 4... e6 5. Nc3 Nbd7 6. Qc2 Bd6 7. b3 O-O 8. Bb2 ) 2... c6 ( 2... e6 3. Nc3 c6 4. e3 ( 4. e4 dxe4 5. f3 ( 5. Nxe4 Bb4+ 6. Nc3 ( 6. Bd2 Qxd4 7. Bxb4 Qxe4+ 8. Be2 c5 9. Bxc5 Qxg2 ) ) ) ( 4. Nf3 dxc4 ( 4... Nf6 5. e3 Nbd7 6. b3 ( 6. Ne5 ) 6... Bd6 7. Bb2 O-O 8. Be2 ) 5. a4 ( 5. g3 ) ( 5. Bg5 f6 ) 5... Bb4 6. e3 Bxc3+ 7. bxc3 b5 8. axb5 cxb5 ) 4... f5 ( 4... Nf6 5. Nf3 Nbd7 6. Bd3 dxc4 7. Bxc4 b5 8. Bd3 a6 9. e4 b4 ) 5. g4 ) 3. Nf3 ( 3. Nc3 Nf6 4. e3 ( 4. Nf3 e6 5. e3 Nbd7 6. Bd3 dxc4 7. Bxc4 b5 8. Bd3 a6 9. e4 c5 10. e5 cxd4 11. Nxb5 Nxe5 12. Nxe5 axb5 13. O-O Qd5 14. Qe2 Ba6 15. Bg5 ) 4... e6 5. Nf3 a6 ( 5... Nbd7 6. Qc2 ( 6. Bd3 Be7 ( 6... Bd6 7. Qc2 ) ( 6... dxc4 7. Bxc4 b5 8. Bd3 Bd6 ( 8... Bb7 9. e4 b4 10. Na4 c5 11. e5 Nd5 12. O-O cxd4 13. Nxd4 ) ( 8... a6 9. e4 c5 10. e5 cxd4 11. Nxb5 Ng4 ( 11... Nxe5 12. Nxe5 axb5 13. Qf3 ) ) 9. O-O Bb7 10. a3 O-O 11. Qc2 ) ( 6... Bb4 ) ) ( 6. b3 Bd6 7. Bb2 O-O 8. Bd3 ) 6... b6 ( 6... Bd6 7. b3 O-O 8. Bb2 Re8 ( 8... Qe7 9. Bd3 ) 9. Bd3 ) 7. b3 Bb7 8. Bd3 Be7 9. O-O O-O 10. Bb2 ) ) 3... Nf6 ( 3... e6 4. e3 Nf6 5. Nc3 Bd6 6. Bd3 dxc4 7. Bxc4 b5 8. Bd3 Nbd7 9. O-O O-O 10. Qc2 ) 4. e3 ( 4. Nc3 e6 5. Bg5 ( 5. e3 Nbd7 6. Qc2 ( 6. Bd3 dxc4 7. Bxc4 b5 8. Bd3 b4 ( 8... a6 9. e4 c5 10. d5 ( 10. e5 cxd4 11. Nxb5 Nxe5 ) ) ) 6... Bd6 7. e4 ( 7. g4 ) 7... dxe4 8. Nxe4 Nxe4 9. Qxe4 e5 10. dxe5 ) 5... h6 ( 5... dxc4 6. e4 b5 7. e5 h6 8. Bh4 g5 9. Nxg5 ( 9. exf6 gxh4 10. Ne5 ) 9... hxg5 10. Bxg5 Nbd7 11. g3 ) 6. Bh4 ( 6. Bxf6 Qxf6 7. Qb3 ) ) 4... e6 5. Nbd2 Nbd7 *

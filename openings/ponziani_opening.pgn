@@ -1,0 +1,10 @@
+[Event "Ponziani Opening"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[Source "github.com/lichess-org/chess-openings (CC0 1.0)"]
+
+1. e4 e5 2. Nf3 Nc6 3. c3 d5 ( 3... Nf6 4. d3 ( 4. Bc4 ) ( 4. d4 Nxe4 5. d5 Bc5 ) 4... d5 5. Nbd2 ) ( 3... f5 4. d4 d6 5. d5 ) ( 3... Be7 ) ( 3... Nge7 ) 4. Qa4 ( 4. Bb5 dxe4 5. Nxe5 Qd5 6. Qa4 ) 4... Bd7 ( 4... Nf6 ) ( 4... f6 ) *

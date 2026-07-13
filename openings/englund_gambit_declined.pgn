@@ -1,4 +1,4 @@
-[Event "Queen's Gambit"]
+[Event "Englund Gambit Declined"]
 [Site "?"]
 [Date "????.??.??"]
 [Round "?"]
@@ -7,4 +7,4 @@
 [Result "*"]
 [Source "github.com/lichess-org/chess-openings (CC0 1.0)"]
 
-1. d4 d5 2. c4 *
+1. d4 e5 2. d5 ( 2. Nf3 e4 3. Ng1 ( 3. Ne5 ) ) ( 2. e3 ) 2... Bc5 3. e4 Qh4 *

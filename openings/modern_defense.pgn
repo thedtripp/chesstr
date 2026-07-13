@@ -1,0 +1,10 @@
+[Event "Modern Defense"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[Source "github.com/lichess-org/chess-openings (CC0 1.0)"]
+
+1. Nf3 ( 1. d4 g6 2. c4 ( 2. h4 Nf6 3. h5 ) 2... Bg7 3. Nc3 ( 3. e4 e5 ( 3... d6 4. Be3 Nf6 5. f3 ) ) 3... c5 ( 3... d6 4. e4 Nc6 ( 4... f5 ) ) 4. d5 Bxc3+ 5. bxc3 f5 ) ( 1. e4 g6 ( 1... c5 2. Nf3 g6 3. d4 Bg7 4. Nc3 Qa5 ) 2. d4 ( 2. Bc4 Bg7 3. Qf3 e6 4. d4 Bxd4 ) 2... Bg7 ( 2... f5 ) ( 2... Nh6 3. Nc3 f5 4. Bxh6 Bxh6 5. exf5 O-O ) ( 2... Nf6 3. e5 Nh5 4. Be2 d6 ) 3. Nc3 ( 3. Bc4 b5 ) ( 3. c4 d5 ( 3... c5 4. Nf3 d6 5. Be2 Qa5+ ) 4. exd5 c6 5. dxc6 Bxd4 ) ( 3. Nf3 b6 ( 3... d6 4. c3 ) ) ( 3. f4 ) ( 3. Bd2 ) ( 3. Bd3 ) 3... c6 ( 3... d5 ) ( 3... c5 ) ( 3... b6 ) ( 3... d6 4. f4 ( 4. Nf3 c6 5. Bg5 Qb6 6. Qd2 Qxb2 ) ) 4. Bc4 ( 4. f4 d5 5. e5 h5 ) ( 4. Nf3 d6 ) 4... d6 5. Qe2 ) 1... c5 ( 1... g6 2. d4 Bg7 3. e4 d6 4. c4 c5 5. dxc5 Qa5+ ) 2. c4 g6 3. d4 Bg7 4. e4 Qb6 ( 4... Qa5+ ) *

@@ -1,0 +1,10 @@
+[Event "English Defense"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[Source "github.com/lichess-org/chess-openings (CC0 1.0)"]
+
+1. d4 ( 1. c4 e6 2. d4 b6 3. Nc3 Bb7 4. e4 f5 5. exf5 ( 5. d5 ) 5... Nf6 ) 1... b6 ( 1... e6 2. c4 b6 3. e4 Bb7 4. Bd3 ( 4. f3 f5 5. exf5 Nh6 ) 4... Nc6 ) 2. c4 Bb7 3. Nc3 e5 *

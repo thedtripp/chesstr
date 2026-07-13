@@ -1,0 +1,10 @@
+[Event "Queen's Indian Defense"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[Source "github.com/lichess-org/chess-openings (CC0 1.0)"]
+
+1. d4 ( 1. Nf3 d5 2. e3 Nf6 3. c4 e6 4. Nc3 Be7 5. d4 O-O 6. b3 b6 7. cxd5 exd5 8. Bb2 Bb7 9. Bd3 ) 1... Nf6 2. c4 ( 2. Nf3 e6 ( 2... d5 3. c4 e6 4. e3 b6 5. b3 Bb7 6. Bd3 Nbd7 7. O-O Bd6 8. Bb2 O-O 9. Nbd2 ) 3. e3 b6 4. Bd3 Bb7 5. O-O ( 5. Nbd2 c5 6. b3 Be7 7. Bb2 d6 8. O-O O-O 9. c4 ) 5... c5 ( 5... Be7 6. c4 O-O 7. Nc3 ) 6. c4 Be7 ( 6... g6 ) ) 2... e6 3. Nf3 b6 ( 3... d5 4. e3 b6 ( 4... Be7 5. Nc3 ( 5. b3 O-O 6. Bd3 ( 6. Bb2 b6 7. Nbd2 Bb7 8. Bd3 ) 6... b6 ) 5... O-O 6. b3 b6 ) 5. Nc3 Bb7 ( 5... Bd6 6. Bd3 O-O 7. O-O Bb7 ) ) ( 3... Bb4+ 4. Nbd2 ( 4. Bd2 a5 5. g3 b6 6. Bg2 Bb7 ) 4... b6 5. a3 ( 5. e3 Bb7 ) 5... Bxd2+ 6. Qxd2 Bb7 7. e3 ) 4. Nc3 ( 4. a3 Bb7 ( 4... Ba6 5. Qc2 Bb7 ) 5. Nc3 Ne4 ( 5... d5 6. cxd5 exd5 ( 6... Nxd5 7. Qc2 ( 7. e3 ) ( 7. Qa4+ ) ( 7. Bd2 ) ) ) ( 5... g6 ) ( 5... Be7 ) ) ( 4. Bf4 ) ( 4. e3 Bb7 5. Bd3 c5 ( 5... d5 ) 6. O-O ( 6. Nc3 cxd4 7. exd4 Be7 8. O-O d5 9. cxd5 Nxd5 ) 6... Be7 7. b3 O-O 8. Bb2 cxd4 9. Nxd4 ) ( 4. g3 Bb7 ( 4... Ba6 5. b3 ( 5. Qa4 ) ( 5. Qb3 ) 5... Bb4+ 6. Bd2 Be7 ( 6... Qe7 ) ) 5. Bg2 c5 ( 5... Bb4+ 6. Bd2 Be7 ) ( 5... Be7 6. Nc3 ( 6. O-O O-O 7. d5 ( 7. b3 ) ( 7. Re1 ) ( 7. Nc3 Na6 ( 7... d5 ) ( 7... Ne4 8. Qc2 Nxc3 9. Qxc3 ) ) 7... exd5 8. Nh4 ( 8. Nd4 ) ) 6... Ne4 7. Bd2 ) 6. d5 exd5 7. Ng5 ( 7. Nh4 ) ) 4... Bb7 ( 4... Bb4 5. Bg5 h6 6. Bh4 Bb7 ) 5. Bg5 ( 5. a3 d5 6. cxd5 Nxd5 7. e4 ) 5... h6 6. Bh4 g5 7. Bg3 Nh5 *

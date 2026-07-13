@@ -1,0 +1,10 @@
+[Event "Richter-Veresov Attack"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[Source "github.com/lichess-org/chess-openings (CC0 1.0)"]
+
+1. d4 Nf6 2. Nc3 d5 3. Bg5 Bf5 ( 3... Ne4 ) ( 3... c5 4. Bxf6 gxf6 5. e4 dxe4 6. d5 ) ( 3... Nbd7 4. Nf3 g6 ) 4. f3 ( 4. Bxf6 ) *

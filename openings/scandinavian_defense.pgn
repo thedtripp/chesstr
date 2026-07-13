@@ -5,6 +5,6 @@
 [White "?"]
 [Black "?"]
 [Result "*"]
-[Source "en.wikibooks.org/wiki/Chess_Opening_Theory (CC BY-SA)"]
+[Source "github.com/lichess-org/chess-openings (CC0 1.0)"]
 
-1. e4 d5 2. exd5 (2. Nf3 dxe4 3. Ng5) Qxd5 (2... Nf6 3. d4 Nxd5 4. Nf3 g6 (4... Bf5 5. Bd3 Bxd3 6. Qxd3 e6 7. O-O)) (2... c6) 3. Nc3 Qa5 4. d4 (4. b4) Nf6 5. Nf3 c6 6. Bd2 Bf5 *
+1. e4 d5 2. b3 ( 2. exd5 Qxd5 ( 2... c6 3. dxc6 Nxc6 ( 3... e5 ) ) ( 2... e5 3. dxe6 Bxe6 ) ( 2... Nf6 3. c4 ( 3. d4 Nxd5 ( 3... c6 4. dxc6 e5 ) ( 3... g6 4. c4 b5 ) ( 3... Bg4 4. f3 ( 4. Nf3 ) ( 4. Bb5+ c6 ( 4... Nbd7 5. Be2 ) ) ( 4. Be2 ) 4... Bf5 5. c4 ( 5. g4 ) ( 5. Bb5+ Nbd7 6. c4 ( 6. Nc3 ) ) ) 4. c4 ( 4. Nf3 Bg4 ( 4... g6 ) ) 4... Nb4 ) 3... e6 ( 3... c6 ) ) 3. Nc3 Qa5 ( 3... Qd6 4. d4 Nf6 ( 4... c6 ) 5. Nf3 ( 5. Bc4 c6 6. Nge2 Bf5 7. Bf4 Qb4 ) 5... a6 ) ( 3... Qd8 4. d4 Nf6 5. Nf3 c6 ( 5... Bg4 ) ) 4. d4 ( 4. b4 ) 4... e5 ( 4... Nf6 5. Nf3 Bf5 ( 5... Bg4 6. h3 ) 6. Ne5 c6 7. g4 ) 5. Nf3 ( 5. dxe5 Nc6 6. Nf3 Bb4 7. Bd2 ) 5... Bg4 ) ( 2. b4 ) *
