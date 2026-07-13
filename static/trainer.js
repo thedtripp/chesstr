@@ -187,6 +187,7 @@ function loadOpening(openingId) {
             draggable: true,
             position: game.fen(),
             orientation: userColor === 'w' ? 'white' : 'black',
+            pieceTheme: 'static/chessboardjs-1.0.0/img/chesspieces/wikipedia/{piece}.png',
             onDragStart: onDragStart,
             onDrop: onDrop,
             onSnapEnd: onSnapEnd,
