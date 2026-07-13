@@ -1,0 +1,32 @@
+<!doctype html>
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="{{ url_for('static', filename='chessboardjs-1.0.0/js/chessboard-1.0.0.js') }}"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='chessboardjs-1.0.0/css/chessboard-1.0.0.css') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/rook.png') }}">
+    <script type="module" src="{{ url_for('static', filename='trainer.js') }}"></script>
+    <title>chesstr</title>
+</head>
+
+<body>
+    <div class="chesstr-container">
+        <a href="/"><h1>Chesstr</h1></a>
+
+        <div class="challenge-container">
+            <div id="board" class="challenge-board" style="width: 400px"></div>
+            <div class="challenge-details-container">
+                <select id="opening-select"></select>
+                <select id="color-select">
+                    <option value="w">Play as White</option>
+                    <option value="b">Play as Black</option>
+                </select>
+                <p class="challenge-details-title" id="opening-title"></p>
+                <p id="result" class="challenge-details-status-message">What's the next move?</p>
+                <button id="hint" class="challenge-details-button">Hint</button>
+                <button id="restart" class="challenge-details-button">Restart</button>
+            </div>
+        </div>
+    </div>
+</body>

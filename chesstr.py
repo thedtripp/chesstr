@@ -1,107 +1,65 @@
-import chess
-from flask import Flask
-from flask import render_template
+from flask import Flask, render_template, request
+
+import openings
 
 app = Flask(__name__)
 
-challenges = [
-        {
-            'id': '0',
-            'next': '1',
-            'opening': 'Grand-Prix Attack',
-            'position': 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR',
-            'fen': 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1',
-            'last' : '',
-            'answer': 'e4',
-            'result': 'rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR'
-        },
-        {
-            'id': '1',
-            'next': '2',
-            'opening': 'Grand-Prix Attack',
-            'position': 'rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR',
-            'fen': 'rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 0 2',
-            'last' : 'c5',
-            'answer': 'Nc3',
-            'result': 'rnbqkbnr/pp1ppppp/8/2p5/4P3/2N5/PPPP1PPP/R1BQKBNR'
-        },
-        {
-            'id': '2',
-            'next': '3',
-            'opening': 'Grand-Prix Attack',
-            'position': 'r1bqkbnr/pp1ppppp/2n5/2p5/4P3/2N5/PPPP1PPP/R1BQKBNR',
-            'fen': 'r1bqkbnr/pp1ppppp/2n5/2p5/4P3/2N5/PPPP1PPP/R1BQKBNR w KQkq - 2 3',
-            'last' : 'Nc6',
-            'answer': 'f4',
-            'result': 'r1bqkbnr/pp1ppppp/2n5/2p5/4PP2/2N5/PPPP2PP/R1BQKBNR'
-        },
-        {
-            'id': '3',
-            'next': '4',
-            'opening': 'Grand-Prix Attack',
-            'position': 'r1bqkbnr/pp2pppp/2np4/2p5/4PP2/2N5/PPPP2PP/R1BQKBNR',
-            'fen': 'r1bqkbnr/pp2pppp/2np4/2p5/4PP2/2N5/PPPP2PP/R1BQKBNR w KQkq - 0 4',
-            'last' : 'd6',
-            'answer': 'Bb5',
-            'result': 'r1bqkbnr/pp2pppp/2np4/1Bp5/4PP2/2N5/PPPP2PP/R1BQK1NR'
-        },
-        {
-            'id': '4',
-            'next': '5',
-            'opening': 'Grand-Prix Attack',
-            'position': 'r2qkbnr/pp1bpppp/2np4/1Bp5/4PP2/2N5/PPPP2PP/R1BQK1NR',
-            'fen': 'r2qkbnr/pp1bpppp/2np4/1Bp5/4PP2/2N5/PPPP2PP/R1BQK1NR w KQkq - 2 5',
-            'last' : 'Bd7',
-            'answer': 'Nc3',
-            'result': 'r2qkbnr/pp1bpppp/2np4/1Bp5/4PP2/2NP4/PPP3PP/R1BQK1NR'
-        },
-        {
-            'id': '5',
-            'next': '6',
-            'opening': 'Grand-Prix Attack',
-            'position': 'r2qkbnr/pp1bpp1p/2np2p1/1Bp5/4PP2/2NP4/PPP3PP/R1BQK1NR',
-            'fen': 'r2qkbnr/pp1bpp1p/2np2p1/1Bp5/4PP2/2NP4/PPP3PP/R1BQK1NR w KQkq - 0 6',
-            'last' : 'g6',
-            'answer': 'Nf3',
-            'result': 'r2qkbnr/pp1bpp1p/2np2p1/1Bp5/4PP2/2NP1N2/PPP3PP/R1BQK2R'
-        },
-        {
-            'id': '6',
-            'next': '1',
-            'opening': 'Grand-Prix Attack',
-            'position': 'r2qk1nr/pp1bppbp/2np2p1/1Bp5/4PP2/2NP1N2/PPP3PP/R1BQK2R',
-            'fen': 'r2qk1nr/pp1bppbp/2np2p1/1Bp5/4PP2/2NP1N2/PPP3PP/R1BQK2R w KQkq - 2 7',
-            'last' : 'Bg7',
-            'answer': 'O-O',
-            'result': 'r2qk1nr/pp1bppbp/2np2p1/1Bp5/4PP2/2NP1N2/PPP3PP/R1BQ1RK1'
-        },
-]
 
 @app.route("/")
-def demo():
-    return render_template('demo.html', challenge=challenges[1])
+def index():
+    return render_template("index.html")
 
-@app.route("/challenge/<id>")
-def get_challenge(id):
-    id = int(id)
-    if id > len(challenges):
-        id = 1
-    return render_template('demo.html', challenge=challenges[id])
 
-@app.route("/test")
-def test():
-    return render_template('test.html')
+@app.route("/api/openings")
+def api_list_openings():
+    return openings.list_openings()
 
-@app.route("/api")
-def api_test():
-    return challenges[0]
 
-@app.route("/api/challenge/<id>")
-def api_get_test(id):
-    id = int(id)
-    if id > len(challenges):
-        id = 1
-    return challenges[id]
+@app.route("/api/openings/<opening_id>/node")
+def api_get_node(opening_id):
+    path = request.args.get("path", "")
+    node = openings.get_node(opening_id, path)
+    if node is None:
+        return {"error": "not found"}, 404
+    return openings.node_to_dict(opening_id, node, path)
+
+
+@app.route("/api/openings/<opening_id>/hint")
+def api_get_hint(opening_id):
+    path = request.args.get("path", "")
+    sans = openings.hint_sans(opening_id, path)
+    if sans is None:
+        return {"error": "not found"}, 404
+    return {"moves": sans}
+
+
+@app.route("/api/openings/<opening_id>/move", methods=["POST"])
+def api_check_move(opening_id):
+    body = request.get_json(force=True, silent=True) or {}
+    path = body.get("path", "")
+    uci = body.get("uci", "")
+
+    child, next_path = openings.check_move(opening_id, path, uci)
+    if child is None:
+        return {"correct": False}
+
+    return {
+        "correct": True,
+        **openings.node_to_dict(opening_id, child, next_path),
+    }
+
+
+@app.route("/api/openings/<opening_id>/auto", methods=["POST"])
+def api_auto_move(opening_id):
+    body = request.get_json(force=True, silent=True) or {}
+    path = body.get("path", "")
+
+    child, next_path = openings.auto_move(opening_id, path)
+    if child is None:
+        return {"error": "no moves available"}, 400
+
+    return openings.node_to_dict(opening_id, child, next_path)
+
 
 if __name__ == "__main__":
     Flask.run(app, debug=True)
