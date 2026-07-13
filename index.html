@@ -2,17 +2,17 @@
 
 <head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script src="{{ url_for('static', filename='chessboardjs-1.0.0/js/chessboard-1.0.0.js') }}"></script>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='chessboardjs-1.0.0/css/chessboard-1.0.0.css') }}">
-    <link rel="shortcut icon" href="{{ url_for('static', filename='img/rook.png') }}">
-    <script type="module" src="{{ url_for('static', filename='trainer.js') }}"></script>
+    <script src="static/chessboardjs-1.0.0/js/chessboard-1.0.0.js"></script>
+    <link rel="stylesheet" href="static/styles.css">
+    <link rel="stylesheet" href="static/chessboardjs-1.0.0/css/chessboard-1.0.0.css">
+    <link rel="shortcut icon" href="static/img/rook.png">
+    <script type="module" src="static/trainer.js"></script>
     <title>chesstr</title>
 </head>
 
 <body>
     <div class="chesstr-container">
-        <a href="/"><h1>Chesstr</h1></a>
+        <a href="."><h1>Chesstr</h1></a>
 
         <div class="challenge-container">
             <div id="board" class="challenge-board" style="width: 400px"></div>
