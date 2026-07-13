@@ -5,6 +5,7 @@ var game = null
 var currentOpeningId = null
 var currentPath = ''
 var userColor = 'w'
+var selectedSquare = null
 
 var $result = $('#result')
 var $title = $('#opening-title')
@@ -13,26 +14,14 @@ var $colorSelect = $('#color-select')
 
 var AUTO_MOVE_DELAY = 600
 
-function onDragStart(source, piece, position, orientation) {
-    if (!game || game.isGameOver()) return false
-    if (game.turn() !== userColor) return false
-
-    if ((game.turn() === 'w' && piece.search(/^b/) !== -1) ||
-        (game.turn() === 'b' && piece.search(/^w/) !== -1)) {
-        return false
-    }
+function canSelect(piece) {
+    if (!game || game.isGameOver() || game.turn() !== userColor) return false
+    return piece && piece[0] === userColor
 }
 
-function onDrop(source, target) {
-    var beforeFen = game.fen()
-    var move
-
-    try {
-        move = game.move({ from: source, to: target, promotion: 'q' })
-    } catch (error) {
-        return 'snapback'
-    }
-
+// Shared by drag-and-drop and click-to-move: applies the move locally,
+// then asks the server whether it's a book move.
+function submitMove(move, beforeFen) {
     var uci = move.from + move.to + (move.promotion || '')
 
     $.ajax({
@@ -54,9 +43,84 @@ function onDrop(source, target) {
     })
 }
 
+function attemptMove(source, target) {
+    var beforeFen = game.fen()
+    var move
+
+    try {
+        move = game.move({ from: source, to: target, promotion: 'q' })
+    } catch (error) {
+        return 'snapback'
+    }
+
+    board.position(game.fen())
+    submitMove(move, beforeFen)
+}
+
+function clearSelection() {
+    if (selectedSquare) {
+        $('#board [data-square="' + selectedSquare + '"]').removeClass('selected-square')
+    }
+    selectedSquare = null
+}
+
+function selectSquare(square) {
+    clearSelection()
+    selectedSquare = square
+    $('#board [data-square="' + square + '"]').addClass('selected-square')
+}
+
+// chessboard.js fires onDragStart on mousedown for ANY occupied square, even a
+// plain click with no movement, but only if the square holds a piece — clicking
+// an empty square never reaches here (see the click handler below for that case).
+// That makes this the right place for reselecting, capturing, and deselecting
+// via click, in addition to its usual job of allowing/denying a real drag.
+function onDragStart(source, piece) {
+    if (selectedSquare) {
+        if (source === selectedSquare) {
+            clearSelection()
+            return false
+        }
+
+        if (!canSelect(piece)) {
+            // occupied by an opponent piece: capture it with the selected piece
+            var from = selectedSquare
+            clearSelection()
+            attemptMove(from, source)
+            return false
+        }
+        // else: a different one of our own pieces — fall through and reselect it
+    }
+
+    clearSelection()
+    if (canSelect(piece)) {
+        selectSquare(source)
+        return true
+    }
+    return false
+}
+
+function onDrop(source, target) {
+    if (source === target) return // handled entirely by onDragStart above
+    clearSelection()
+    return attemptMove(source, target)
+}
+
 function onSnapEnd() {
     board.position(game.fen())
 }
+
+// Clicking an empty square while a piece is selected: chessboard.js has no hook
+// for this (mousedownSquare ignores empty squares), so handle it directly.
+$('#board').on('click', '[data-square]', function () {
+    if (!game || !selectedSquare) return
+    var square = $(this).attr('data-square')
+    if ((board.position() || {})[square]) return // occupied squares go through onDragStart
+
+    var from = selectedSquare
+    clearSelection()
+    attemptMove(from, square)
+})
 
 // After any move lands on a node, either hand control back to the player
 // or, if it's the computer's turn, play its book reply after a short pause.

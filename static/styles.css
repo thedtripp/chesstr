@@ -47,3 +47,7 @@ body {
 .challenge-details-button {
 
 }
+
+.selected-square {
+    box-shadow: inset 0 0 3px 4px #ffeb3b;
+}
