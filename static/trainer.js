@@ -21,6 +21,10 @@ var $drillCount = $('#drill-count')
 
 var AUTO_MOVE_DELAY = 600
 
+function playSound(name) {
+    new Audio('static/sound/' + name + '.mp3').play().catch(function () {})
+}
+
 function setResult(text, type) {
     $result.text(text)
     $result.removeClass('result-success result-error result-info')
@@ -193,6 +197,7 @@ function onUserMove(orig, dest) {
     currentPath = quizPath.concat([index])
     lastMove = [orig, dest]
     syncBoard()
+    playSound(move.captured ? 'Capture' : 'Move')
     maybeAutoPlay({
         path: currentPath,
         turn: game.turn(),
@@ -223,10 +228,11 @@ function maybeAutoPlay(node) {
         var from = uci.slice(0, 2)
         var to = uci.slice(2, 4)
 
-        game.move({ from: from, to: to, promotion: uci.slice(4) || undefined })
+        var computerMove = game.move({ from: from, to: to, promotion: uci.slice(4) || undefined })
         currentPath = node.path.concat([index])
         lastMove = [from, to]
         syncBoard()
+        playSound(computerMove.captured ? 'Capture' : 'Move')
         setResult('Computer played: ' + child.san, 'info')
 
         setTimeout(function () {
@@ -254,6 +260,7 @@ function loadOpening(openingId) {
     $title.text(opening.name)
 
     ensureBoard(fullBoardConfig())
+    playSound('Confirmation')
 
     maybeAutoPlay({
         path: currentPath,
@@ -290,6 +297,7 @@ function drillWeakSpot() {
     $title.text(opening.name + ' — weak spot')
 
     ensureBoard(fullBoardConfig())
+    playSound('Confirmation')
     setResult('Weak spot — missed ' + entry.wrong + 'x so far. What\'s the move?', 'error')
     refreshDrillBadge()
 }
