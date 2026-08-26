@@ -21,10 +21,10 @@ var userColor = 'w'
 var lastMove = null
 var guidedMode = false
 
-// A "normal" session (loadOpening, via Restart or the opening picker) counts
-// toward curriculum progression; exploring via New line or Drill weak spots
-// doesn't. sessionClean tracks whether the current normal session has hit
-// any wrong move yet.
+// A "normal" session (loadOpening, via Continue or the opening picker) counts
+// toward curriculum progression; exploring via Drill weak spots doesn't.
+// sessionClean tracks whether the current normal session has hit any wrong
+// move yet.
 var progressionActive = false
 var sessionClean = true
 var curriculumOrder = []
@@ -165,19 +165,6 @@ function replayPath(opening, path) {
     var result = replayMoves(opening, path)
     if (!result || result.node.children.length === 0) return null
     return result
-}
-
-// Walks back up the just-played path to the nearest node that actually
-// offered more than one book move, so "try another variation" can rejoin
-// the tree there instead of restarting from move one.
-function findRecentBranch(path) {
-    for (var i = path.length - 1; i >= 0; i--) {
-        var node = getNodeAtPath(path.slice(0, i))
-        if (node.children.length > 1) {
-            return { prefix: path.slice(0, i), node: node, takenIndex: path[i] }
-        }
-    }
-    return null
 }
 
 // Due entries that still replay cleanly against today's opening trees.
@@ -364,47 +351,6 @@ function loadOpening(openingId) {
     })
 }
 
-// Rejoins the tree at the nearest fork in the line just played and takes an
-// untried branch from there, instead of restarting the whole opening from
-// move one. Falls back to a full restart if the line never branched.
-function nextVariation() {
-    if (!currentOpeningId) return
-    var opening = openingsData.find(function (o) {
-        return o.id === currentOpeningId
-    })
-    if (!opening) return
-
-    var branch = findRecentBranch(currentPath)
-    if (!branch) {
-        loadOpening(currentOpeningId)
-        return
-    }
-
-    var alternatives = branch.node.children
-        .map(function (_, index) {
-            return index
-        })
-        .filter(function (index) {
-            return index !== branch.takenIndex
-        })
-    var newIndex = alternatives[Math.floor(Math.random() * alternatives.length)]
-    var replay = replayMoves(opening, branch.prefix.concat([newIndex]))
-
-    progressionActive = false
-    game = replay.game
-    currentPath = replay.currentPath
-    lastMove = replay.lastMove
-    syncBoard()
-    playSound(replay.lastCaptured ? 'Capture' : 'Move')
-
-    maybeAutoPlay({
-        path: currentPath,
-        turn: game.turn(),
-        is_leaf: isAtBookEnd(replay.node, currentPath.length),
-        last_move: replay.node.san,
-    })
-}
-
 // Jump straight into the position the player has missed the most / longest,
 // replaying the book line that leads there instantly, then handing back
 // control right at the point they need to answer again.
@@ -464,11 +410,9 @@ function refreshCurriculumUI() {
     }
 }
 
-$('#restart').on('click', function () {
+$('#continue-btn').on('click', function () {
     if (currentOpeningId) loadOpening(currentOpeningId)
 })
-
-$('#next-variation').on('click', nextVariation)
 
 $('#drill').on('click', drillWeakSpot)
 
