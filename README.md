@@ -37,6 +37,27 @@ popularity number with an unrelated opening that reduces to the same
 generic early position; not a bug, just a data-sparsity limit worth
 knowing about if that number looks surprising.
 
+## Testing
+
+Unit tests cover the pure logic modules -- curriculum progression, spaced-
+repetition scheduling, and the popularity-fetching tool's tree-walking
+algorithm -- since that's where a silent regression is easiest to ship and
+hardest to eyeball. A Playwright smoke test drives the real app in a real
+browser to check the golden path end to end.
+
+```sh
+# JS unit tests (static/curriculum.js, static/stats.js, static/selection.js)
+node --test
+
+# Python unit tests (tools/build_opening_catalog.py, tools/fetch_opening_popularity.py)
+python3 -m unittest discover -s tools/tests -p 'test_*.py'
+
+# End-to-end smoke test (loads the real app in headless Chromium, plays a
+# real book move, attempts an off-book one). Needs `npm install` once first.
+npm install
+node e2e/smoke.mjs
+```
+
 ## TODO
 
 - Tag one child at each branch as `mainline: true` in the tree data
