@@ -164,6 +164,17 @@ square.move-dest.oc {
     margin: 4px 0 0;
 }
 
+.curriculum-progress {
+    color: var(--text-muted);
+    font-size: 0.78rem;
+    font-variant-numeric: tabular-nums;
+    margin: 0;
+}
+
+.control-group select option:disabled {
+    color: var(--text-muted);
+}
+
 .challenge-details-status-message {
     background-color: var(--bg-panel-raised);
     border-left: 3px solid var(--text-muted);

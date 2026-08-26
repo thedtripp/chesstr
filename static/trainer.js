@@ -1,6 +1,15 @@
 import { Chess } from './chess.js'
 import { Chessground } from './chessground/chessground.js'
 import { recordResult, allDue, discard } from './stats.js'
+import {
+    ensureInitialized,
+    isUnlocked,
+    unlockedOpenings,
+    depthCapFor,
+    streakFor,
+    streakGoal,
+    recordPlaythrough,
+} from './curriculum.js'
 
 var cg = null
 var game = null
@@ -12,8 +21,18 @@ var userColor = 'w'
 var lastMove = null
 var guidedMode = false
 
+// A "normal" session (loadOpening, via Restart or the opening picker) counts
+// toward curriculum progression; exploring via New line or Drill weak spots
+// doesn't. sessionClean tracks whether the current normal session has hit
+// any wrong move yet.
+var progressionActive = false
+var sessionClean = true
+var curriculumOrder = []
+var maxDepths = {}
+
 var $result = $('#result')
 var $title = $('#opening-title')
+var $progress = $('#curriculum-progress')
 var $select = $('#opening-select')
 var $colorSelect = $('#color-select')
 var $guidedToggle = $('#guided-toggle')
@@ -60,6 +79,26 @@ function guidedShapes(node) {
     })
 }
 
+function treeMaxDepth(node, depth) {
+    depth = depth || 0
+    if (node.children.length === 0) return depth
+    var max = depth
+    node.children.forEach(function (child) {
+        var d = treeMaxDepth(child, depth + 1)
+        if (d > max) max = d
+    })
+    return max
+}
+
+// A position is "book end" either because the tree really has no more
+// moves there, or — only during a normal (curriculum-tracked) session —
+// because the player hasn't earned depth past this point yet.
+function isAtBookEnd(node, pathLength) {
+    if (node.children.length === 0) return true
+    if (progressionActive && pathLength >= depthCapFor(currentOpeningId)) return true
+    return false
+}
+
 // Board config derived from current game/lastMove state. Movable destinations
 // are only populated when it's the player's turn — otherwise the board is
 // inert while the computer "thinks", after the game has ended, or once the
@@ -68,7 +107,7 @@ function guidedShapes(node) {
 function boardConfig() {
     var turnColor = game.turn() === 'w' ? 'white' : 'black'
     var node = getNodeAtPath(currentPath)
-    var atBookEnd = node.children.length === 0
+    var atBookEnd = isAtBookEnd(node, currentPath.length)
     var interactive = !game.isGameOver() && !atBookEnd && game.turn() === userColor
 
     return {
@@ -211,6 +250,7 @@ function onUserMove(orig, dest) {
     refreshDrillBadge()
 
     if (index === -1) {
+        sessionClean = false
         game = new Chess(beforeFen)
         syncBoard()
         setResult('Not a book move here. Try again.', 'error')
@@ -225,7 +265,7 @@ function onUserMove(orig, dest) {
     maybeAutoPlay({
         path: currentPath,
         turn: game.turn(),
-        is_leaf: child.children.length === 0,
+        is_leaf: isAtBookEnd(child, currentPath.length),
         last_move: child.san,
     })
 }
@@ -234,7 +274,7 @@ function onUserMove(orig, dest) {
 // or, if it's the computer's turn, play its book reply after a short pause.
 function maybeAutoPlay(node) {
     if (node.is_leaf) {
-        setResult('Line complete! Nice work.', 'success')
+        handleLineComplete()
         return
     }
 
@@ -263,11 +303,38 @@ function maybeAutoPlay(node) {
             maybeAutoPlay({
                 path: currentPath,
                 turn: game.turn(),
-                is_leaf: child.children.length === 0,
+                is_leaf: isAtBookEnd(child, currentPath.length),
                 last_move: child.san,
             })
         }, AUTO_MOVE_DELAY / 2)
     }, AUTO_MOVE_DELAY)
+}
+
+// A line just finished — either the book really ran out, or (during a
+// normal, curriculum-tracked session) the player hit their current depth
+// cap. Score it toward curriculum progression when that applies, and
+// surface whatever changed.
+function handleLineComplete() {
+    if (!progressionActive) {
+        setResult('Line complete! Nice work.', 'success')
+        return
+    }
+
+    var result = recordPlaythrough(currentOpeningId, sessionClean, maxDepths[currentOpeningId], curriculumOrder)
+    refreshCurriculumUI()
+
+    if (result.unlockedNext) {
+        var unlocked = openingsData.find(function (o) {
+            return o.id === result.unlockedNext
+        })
+        setResult('Opening mastered! New opening unlocked: ' + (unlocked ? unlocked.name : result.unlockedNext), 'success')
+    } else if (result.mastered) {
+        setResult('Opening fully mastered! Nice work.', 'success')
+    } else if (result.leveledUpTo) {
+        setResult('Line complete! Going deeper next time (' + result.leveledUpTo + ' plies).', 'success')
+    } else {
+        setResult('Line complete! Nice work.', 'success')
+    }
 }
 
 function loadOpening(openingId) {
@@ -281,7 +348,10 @@ function loadOpening(openingId) {
     currentPath = []
     lastMove = null
     game = new Chess()
+    progressionActive = true
+    sessionClean = true
     $title.text(opening.name)
+    refreshCurriculumUI()
 
     ensureBoard(fullBoardConfig())
     playSound('Confirmation')
@@ -289,7 +359,7 @@ function loadOpening(openingId) {
     maybeAutoPlay({
         path: currentPath,
         turn: game.turn(),
-        is_leaf: currentTree.children.length === 0,
+        is_leaf: isAtBookEnd(currentTree, currentPath.length),
         last_move: null,
     })
 }
@@ -320,6 +390,7 @@ function nextVariation() {
     var newIndex = alternatives[Math.floor(Math.random() * alternatives.length)]
     var replay = replayMoves(opening, branch.prefix.concat([newIndex]))
 
+    progressionActive = false
     game = replay.game
     currentPath = replay.currentPath
     lastMove = replay.lastMove
@@ -329,7 +400,7 @@ function nextVariation() {
     maybeAutoPlay({
         path: currentPath,
         turn: game.turn(),
-        is_leaf: replay.node.children.length === 0,
+        is_leaf: isAtBookEnd(replay.node, currentPath.length),
         last_move: replay.node.san,
     })
 }
@@ -350,6 +421,7 @@ function drillWeakSpot() {
     })
     var replay = replayPath(opening, entry.path)
 
+    progressionActive = false
     userColor = entry.userColor
     $colorSelect.val(userColor)
     currentOpeningId = entry.openingId
@@ -364,6 +436,29 @@ function drillWeakSpot() {
     playSound('Confirmation')
     setResult('Weak spot — missed ' + entry.wrong + 'x so far. What\'s the move?', 'error')
     refreshDrillBadge()
+}
+
+// Keeps the opening dropdown's locked/unlocked options and the progress
+// line under the title in sync with curriculum state.
+function refreshCurriculumUI() {
+    var unlocked = unlockedOpenings()
+    $select.find('option').each(function () {
+        var id = $(this).val()
+        $(this).prop('disabled', unlocked.indexOf(id) === -1)
+    })
+
+    if (!currentOpeningId || unlocked.indexOf(currentOpeningId) === -1) {
+        $progress.text('')
+        return
+    }
+
+    var cap = depthCapFor(currentOpeningId)
+    var max = maxDepths[currentOpeningId] || cap
+    if (cap >= max) {
+        $progress.text('Fully unlocked (' + max + ' plies)')
+    } else {
+        $progress.text('Depth ' + cap + '/' + max + ' plies · streak ' + streakFor(currentOpeningId) + '/' + streakGoal() + ' to go deeper')
+    }
 }
 
 $('#restart').on('click', function () {
@@ -403,11 +498,18 @@ $('#hint').on('click', function () {
 
 $.getJSON('static/openings.json').done(function (data) {
     openingsData = data
+    curriculumOrder = openingsData.map(function (o) {
+        return o.id
+    })
     openingsData.forEach(function (opening) {
+        maxDepths[opening.id] = treeMaxDepth(opening.tree)
         $select.append($('<option>', { value: opening.id, text: opening.name }))
     })
-    if (openingsData.length > 0) {
-        loadOpening(openingsData[0].id)
-    }
+    ensureInitialized(curriculumOrder)
+
+    var unlocked = unlockedOpenings()
+    var startId = unlocked.length > 0 ? unlocked[unlocked.length - 1] : (openingsData[0] && openingsData[0].id)
+    if (startId) loadOpening(startId)
+    refreshCurriculumUI()
     refreshDrillBadge()
 })
