@@ -25,7 +25,7 @@ body {
 }
 
 .chesstr-app {
-    max-width: 720px;
+    max-width: 860px;
     margin: 0 auto;
 }
 
@@ -105,11 +105,11 @@ square.move-dest.oc {
 }
 
 .challenge-details-container {
-    flex: 1 1 220px;
+    flex: 1 1 200px;
     display: flex;
     flex-direction: column;
     gap: 14px;
-    min-width: 220px;
+    min-width: 200px;
 }
 
 .control-group {
@@ -216,6 +216,7 @@ square.move-dest.oc {
 }
 
 .challenge-details-button-primary {
+    flex: 0 0 auto;
     background-color: var(--accent);
     border-color: var(--accent);
     color: #161512;
