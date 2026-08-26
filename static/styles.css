@@ -1,53 +1,258 @@
+:root {
+    --bg: #161512;
+    --bg-panel: #2b2926;
+    --bg-panel-raised: #34322e;
+    --border: #4a4843;
+    --text: #bababa;
+    --text-strong: #f0f0f0;
+    --text-muted: #7d7a75;
+    --accent: #759900;
+    --accent-hover: #8ab52f;
+    --danger: #d85555;
+    --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+}
+
 body {
-    background-color: black;
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: var(--font);
+    margin: 0;
+    padding: 24px 16px 48px;
 }
 
-.chesstr-container {
-    color: bisque;
-    margin: auto;
-    width: 650px;
+.chesstr-app {
+    max-width: 720px;
+    margin: 0 auto;
 }
 
-.chesstr-container a {
+.site-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.brand {
     text-decoration: none;
-    color: inherit; /* This will make the link color inherit from its parent element */
+    color: var(--text-strong);
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
 }
 
+.brand:hover {
+    color: var(--accent-hover);
+}
 
 .challenge-container {
-    background-color: rgb(60, 60, 60);
+    background-color: var(--bg-panel);
+    border: 1px solid var(--border);
+    border-radius: 6px;
     display: flex;
-    margin: auto;
-    width: 650px;
-    padding: 15px;
-    border-radius: 8px;
+    flex-wrap: wrap;
+    gap: 24px;
+    margin: 0 auto;
+    padding: 20px;
+}
 
+.board-wrap {
+    flex: 0 0 auto;
+    margin: 0 auto;
 }
 
 .challenge-board {
+    width: min(480px, 86vw);
+    aspect-ratio: 1 / 1;
+}
 
+/* chessground ships layout + piece/board theme CSS but leaves move
+   highlighting colors to the embedding app to define. */
+.cg-wrap coords {
+    color: var(--text-muted);
+}
+
+square.last-move {
+    background-color: rgba(155, 199, 0, 0.41);
+}
+
+square.selected {
+    background-color: rgba(20, 85, 30, 0.5);
+}
+
+square.check {
+    background: radial-gradient(
+        ellipse at center,
+        rgba(255, 0, 0, 1) 0%,
+        rgba(231, 0, 0, 1) 25%,
+        rgba(169, 0, 0, 0) 89%,
+        rgba(158, 0, 0, 0) 100%
+    );
+}
+
+square.move-dest {
+    background: radial-gradient(rgba(20, 85, 30, 0.5) 22%, rgba(0, 0, 0, 0) 0);
+    pointer-events: auto;
+}
+
+square.move-dest:hover {
+    background: radial-gradient(rgba(20, 85, 30, 0.65) 30%, rgba(0, 0, 0, 0) 0);
+}
+
+square.move-dest.oc {
+    background: radial-gradient(transparent 0%, transparent 79%, rgba(20, 85, 30, 0.3) 80%);
 }
 
 .challenge-details-container {
-    text-align: center;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: auto;
-    margin-bottom: auto;
+    flex: 1 1 220px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    min-width: 220px;
+}
+
+.control-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.control-group label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--text-muted);
+}
+
+.control-group select {
+    background-color: var(--bg-panel-raised);
+    color: var(--text-strong);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 8px 10px;
+    font-family: inherit;
+    font-size: 0.95rem;
+}
+
+.control-group select:focus {
+    outline: none;
+    border-color: var(--accent);
+}
+
+.toggle-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text);
+    font-size: 0.9rem;
+    cursor: pointer;
+    user-select: none;
+}
+
+.toggle-row input {
+    accent-color: var(--accent);
+    width: 15px;
+    height: 15px;
+    cursor: pointer;
 }
 
 .challenge-details-title {
-
+    color: var(--text-strong);
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin: 4px 0 0;
 }
 
 .challenge-details-status-message {
+    background-color: var(--bg-panel-raised);
+    border-left: 3px solid var(--text-muted);
+    border-radius: 4px;
+    padding: 10px 12px;
+    margin: 0;
+    font-size: 0.95rem;
+    min-height: 1.2em;
+}
 
+.challenge-details-status-message.result-success {
+    border-left-color: var(--accent);
+    color: var(--accent-hover);
+}
+
+.challenge-details-status-message.result-error {
+    border-left-color: var(--danger);
+    color: var(--danger);
+}
+
+.challenge-details-status-message.result-info {
+    border-left-color: var(--text-muted);
+    color: var(--text);
+}
+
+.button-row {
+    display: flex;
+    gap: 8px;
+    margin-top: auto;
 }
 
 .challenge-details-button {
-
+    flex: 1;
+    background-color: var(--bg-panel-raised);
+    color: var(--text-strong);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 9px 12px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.15s, border-color 0.15s;
 }
 
-.selected-square {
-    box-shadow: inset 0 0 3px 4px #ffeb3b;
+.challenge-details-button:hover {
+    background-color: var(--accent);
+    border-color: var(--accent);
+    color: #161512;
+}
+
+.challenge-details-button-primary {
+    background-color: var(--accent);
+    border-color: var(--accent);
+    color: #161512;
+}
+
+.challenge-details-button-primary:hover {
+    background-color: var(--accent-hover);
+    border-color: var(--accent-hover);
+}
+
+.drill-badge {
+    display: inline-block;
+    margin-left: 6px;
+    background-color: var(--danger);
+    color: #fff;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 1px 7px;
+}
+
+.drill-badge:empty {
+    display: none;
+}
+
+@media (max-width: 560px) {
+    .challenge-container {
+        flex-direction: column;
+        padding: 14px;
+    }
+
+    .board-wrap {
+        width: 100%;
+    }
+
+    .challenge-board {
+        width: 100%;
+        max-width: 480px;
+    }
 }

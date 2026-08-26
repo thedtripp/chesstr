@@ -1,32 +1,57 @@
 <!doctype html>
 
 <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script src="static/chessboardjs-1.0.0/js/chessboard-1.0.0.js"></script>
+    <link rel="stylesheet" href="static/chessground/chessground.base.css">
+    <link rel="stylesheet" href="static/chessground/chessground.brown.css">
+    <link rel="stylesheet" href="static/chessground/chessground.cburnett.css">
     <link rel="stylesheet" href="static/styles.css">
-    <link rel="stylesheet" href="static/chessboardjs-1.0.0/css/chessboard-1.0.0.css">
     <link rel="shortcut icon" href="static/img/rook.png">
     <script type="module" src="static/trainer.js"></script>
     <title>chesstr</title>
 </head>
 
 <body>
-    <div class="chesstr-container">
-        <a href="."><h1>Chesstr</h1></a>
+    <div class="chesstr-app">
+        <header class="site-header">
+            <a href="." class="brand">♞ chesstr</a>
+        </header>
 
-        <div class="challenge-container">
-            <div id="board" class="challenge-board" style="width: 400px"></div>
-            <div class="challenge-details-container">
-                <select id="opening-select"></select>
-                <select id="color-select">
-                    <option value="w">Play as White</option>
-                    <option value="b">Play as Black</option>
-                </select>
-                <p class="challenge-details-title" id="opening-title"></p>
-                <p id="result" class="challenge-details-status-message">What's the next move?</p>
-                <button id="hint" class="challenge-details-button">Hint</button>
-                <button id="restart" class="challenge-details-button">Restart</button>
+        <main class="challenge-container">
+            <div class="board-wrap">
+                <div id="board" class="challenge-board"></div>
             </div>
-        </div>
+
+            <div class="challenge-details-container">
+                <div class="control-group">
+                    <label for="opening-select">Opening</label>
+                    <select id="opening-select"></select>
+                </div>
+                <div class="control-group">
+                    <label for="color-select">Play as</label>
+                    <select id="color-select">
+                        <option value="w">White</option>
+                        <option value="b">Black</option>
+                    </select>
+                </div>
+                <label class="toggle-row" for="guided-toggle">
+                    <input type="checkbox" id="guided-toggle">
+                    Guided mode
+                </label>
+
+                <p class="challenge-details-title" id="opening-title"></p>
+                <p id="result" class="challenge-details-status-message result-info">What's the next move?</p>
+
+                <div class="button-row">
+                    <button id="hint" class="challenge-details-button">Hint</button>
+                    <button id="restart" class="challenge-details-button">Restart</button>
+                </div>
+                <button id="drill" class="challenge-details-button challenge-details-button-primary">
+                    Drill weak spots<span id="drill-count" class="drill-badge"></span>
+                </button>
+            </div>
+        </main>
     </div>
 </body>
