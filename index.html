@@ -28,6 +28,7 @@
                 <div class="control-group">
                     <label for="opening-select">Opening</label>
                     <select id="opening-select"></select>
+                    <button id="choose-openings-btn" class="link-button" type="button">Choose openings…</button>
                 </div>
                 <div class="control-group">
                     <label for="color-select">Play as</label>
@@ -54,5 +55,42 @@
                 </button>
             </div>
         </main>
+    </div>
+
+    <div id="picker-overlay" class="picker-overlay" hidden>
+        <div class="picker-modal">
+            <div class="picker-header">
+                <h2>Choose your openings</h2>
+                <p>Pick which openings are part of your training path, on top of the ones already curated for you.</p>
+            </div>
+
+            <div class="picker-toolbar">
+                <div class="picker-search-field">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    <input type="text" id="picker-search" placeholder="Search openings, e.g. Sicilian, Vienna, Caro-Kann" autocomplete="off" spellcheck="false" />
+                </div>
+                <div class="picker-sort-field">
+                    <label for="picker-sort">Sort</label>
+                    <select id="picker-sort">
+                        <option value="popularity-desc">Most popular</option>
+                        <option value="name">Name (A–Z)</option>
+                        <option value="lines-desc">Most lines</option>
+                        <option value="depth-desc">Deepest</option>
+                    </select>
+                </div>
+                <div class="picker-result-count" id="picker-result-count"></div>
+            </div>
+
+            <div class="picker-list" id="picker-list"></div>
+            <div class="picker-empty-state" id="picker-empty-state" style="display: none">No openings match "<span id="picker-empty-query"></span>"</div>
+
+            <div class="picker-footer">
+                <div class="picker-footer-count"><strong id="picker-selected-count">0</strong> selected</div>
+                <div class="picker-footer-buttons">
+                    <button id="picker-cancel" class="challenge-details-button" type="button">Cancel</button>
+                    <button id="picker-save" class="challenge-details-button-primary" type="button">Save</button>
+                </div>
+            </div>
+        </div>
     </div>
 </body>

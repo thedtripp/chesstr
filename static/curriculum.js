@@ -105,3 +105,7 @@ export function recordPlaythrough(openingId, color, clean, maxDepth, orderedOpen
     saveState(state)
     return result
 }
+
+export function resetAll() {
+    localStorage.removeItem(STORAGE_KEY)
+}

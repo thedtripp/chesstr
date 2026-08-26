@@ -80,3 +80,7 @@ export function discard(openingId, path) {
     delete store[keyFor(openingId, path)]
     saveStore(store)
 }
+
+export function resetAll() {
+    localStorage.removeItem(STORAGE_KEY)
+}

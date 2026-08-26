@@ -10,6 +10,8 @@ import {
     streakGoal,
     recordPlaythrough,
 } from './curriculum.js'
+import { getSelected } from './selection.js'
+import { initPicker } from './picker.js'
 
 var cg = null
 var game = null
@@ -443,8 +445,21 @@ $('#hint').on('click', function () {
     }
 })
 
-$.getJSON('static/openings.json').done(function (data) {
-    openingsData = data
+// Curated openings/*.pgn are always part of the training path; the full
+// opening-catalog.json (149 families) is filtered down to whatever the
+// player has explicitly added via the "Choose openings" picker.
+$.when($.getJSON('static/openings.json'), $.getJSON('static/opening-catalog.json')).done(function (curatedResult, catalogResult) {
+    var curated = curatedResult[0]
+    var catalog = catalogResult[0]
+    var curatedIds = curated.map(function (o) {
+        return o.id
+    })
+    var selected = getSelected()
+    var fromCatalog = catalog.filter(function (o) {
+        return selected.indexOf(o.id) !== -1 && curatedIds.indexOf(o.id) === -1
+    })
+
+    openingsData = curated.concat(fromCatalog)
     curriculumOrder = openingsData.map(function (o) {
         return o.id
     })
@@ -453,6 +468,7 @@ $.getJSON('static/openings.json').done(function (data) {
         $select.append($('<option>', { value: opening.id, text: opening.name }))
     })
     ensureInitialized(curriculumOrder)
+    initPicker(catalog, curatedIds)
 
     var unlocked = unlockedOpenings()
     var startId = unlocked.length > 0 ? unlocked[unlocked.length - 1] : (openingsData[0] && openingsData[0].id)
