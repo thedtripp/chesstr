@@ -140,6 +140,35 @@ square.move-dest.oc {
     border-color: var(--accent);
 }
 
+.control-group-inline {
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+}
+
+.control-group-inline label {
+    text-transform: none;
+    letter-spacing: normal;
+    font-size: 0.85rem;
+    color: var(--text);
+}
+
+.control-group input[type='number'] {
+    width: 52px;
+    background-color: var(--bg-panel-raised);
+    color: var(--text-strong);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 6px 8px;
+    font-family: inherit;
+    font-size: 0.9rem;
+}
+
+.control-group input[type='number']:focus {
+    outline: none;
+    border-color: var(--accent);
+}
+
 .link-button {
     align-self: flex-start;
     background: none;

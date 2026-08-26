@@ -8,6 +8,7 @@ import {
     depthCapFor,
     streakFor,
     streakGoal,
+    setStreakGoal,
     recordPlaythrough,
 } from './curriculum.js'
 import { getSelected } from './selection.js'
@@ -38,6 +39,7 @@ var $progress = $('#curriculum-progress')
 var $select = $('#opening-select')
 var $colorSelect = $('#color-select')
 var $guidedToggle = $('#guided-toggle')
+var $streakGoalInput = $('#streak-goal')
 var $drillCount = $('#drill-count')
 
 var AUTO_MOVE_DELAY = 600
@@ -427,6 +429,12 @@ $guidedToggle.on('change', function () {
     if (cg) syncBoard()
 })
 
+$streakGoalInput.on('change', function () {
+    var applied = setStreakGoal(parseInt($streakGoalInput.val(), 10))
+    $streakGoalInput.val(applied)
+    refreshCurriculumUI()
+})
+
 $colorSelect.on('change', function () {
     userColor = $colorSelect.val()
     if (currentOpeningId) loadOpening(currentOpeningId)
@@ -469,6 +477,7 @@ $.when($.getJSON('static/openings.json'), $.getJSON('static/opening-catalog.json
     })
     ensureInitialized(curriculumOrder)
     initPicker(catalog, curatedIds)
+    $streakGoalInput.val(streakGoal())
 
     var unlocked = unlockedOpenings()
     var startId = unlocked.length > 0 ? unlocked[unlocked.length - 1] : (openingsData[0] && openingsData[0].id)

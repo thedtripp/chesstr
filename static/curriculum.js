@@ -13,7 +13,9 @@
 const STORAGE_KEY = 'chesstr:curriculum:v1'
 const STARTING_DEPTH = 4
 const DEPTH_INCREMENT = 2
-const STREAK_TO_LEVEL_UP = 3
+const DEFAULT_STREAK_GOAL = 3
+const MIN_STREAK_GOAL = 1
+const MAX_STREAK_GOAL = 10
 
 function loadState() {
     try {
@@ -61,7 +63,16 @@ export function streakFor(openingId, color) {
 }
 
 export function streakGoal() {
-    return STREAK_TO_LEVEL_UP
+    var state = loadState()
+    return state.streakGoal || DEFAULT_STREAK_GOAL
+}
+
+export function setStreakGoal(n) {
+    var clamped = Math.max(MIN_STREAK_GOAL, Math.min(MAX_STREAK_GOAL, Math.round(n) || DEFAULT_STREAK_GOAL))
+    var state = loadState()
+    state.streakGoal = clamped
+    saveState(state)
+    return clamped
 }
 
 // Call once a full playthrough (a real book leaf, or hitting the depth cap)
@@ -84,7 +95,7 @@ export function recordPlaythrough(openingId, color, clean, maxDepth, orderedOpen
     state.streaks[key] = (state.streaks[key] || 0) + 1
     var result = {}
 
-    if (state.streaks[key] >= STREAK_TO_LEVEL_UP) {
+    if (state.streaks[key] >= (state.streakGoal || DEFAULT_STREAK_GOAL)) {
         state.streaks[key] = 0
         var newCap = Math.min(currentCap + DEPTH_INCREMENT, maxDepth)
         state.depthCaps[key] = newCap
