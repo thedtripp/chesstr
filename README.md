@@ -17,18 +17,6 @@ python3 tools/build_openings_json.py
 
 ## TODO
 
-- Adaptive curriculum: start the learner on one opening at a shallow
-  depth cap (~3-4 plies) and expand both breadth (more openings) and
-  depth (deeper into each one) as mastery is demonstrated. Track, per
-  user in `localStorage`: which openings are unlocked, and a depth cap
-  per active opening. Reuse the existing `atBookEnd`/`is_leaf` check in
-  `boardConfig()` so the depth cap just acts like an artificial leaf --
-  hitting it early triggers the same "Line complete!" state, no new UI
-  concept needed. Layer a rolling "clean playthrough" streak on top of
-  the existing per-position mistake tracker in `stats.js` (any miss
-  resets it; N clean run-throughs at the current cap bumps the cap and
-  resets the streak); once an opening's cap reaches its real max depth,
-  unlock the next opening in a fixed curriculum order.
 - Tag one child at each branch as `mainline: true` in the tree data
   (the plainest-named entry -- no `: Sub-variation` suffix, or the
   fewest of them -- since that's how the source data itself signals

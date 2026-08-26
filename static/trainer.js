@@ -3,7 +3,7 @@ import { Chessground } from './chessground/chessground.js'
 import { recordResult, allDue, discard } from './stats.js'
 import {
     ensureInitialized,
-    isUnlocked,
+    isOpeningUnlocked,
     unlockedOpenings,
     depthCapFor,
     streakFor,
@@ -95,7 +95,7 @@ function treeMaxDepth(node, depth) {
 // because the player hasn't earned depth past this point yet.
 function isAtBookEnd(node, pathLength) {
     if (node.children.length === 0) return true
-    if (progressionActive && pathLength >= depthCapFor(currentOpeningId)) return true
+    if (progressionActive && pathLength >= depthCapFor(currentOpeningId, userColor)) return true
     return false
 }
 
@@ -320,7 +320,7 @@ function handleLineComplete() {
         return
     }
 
-    var result = recordPlaythrough(currentOpeningId, sessionClean, maxDepths[currentOpeningId], curriculumOrder)
+    var result = recordPlaythrough(currentOpeningId, userColor, sessionClean, maxDepths[currentOpeningId], curriculumOrder)
     refreshCurriculumUI()
 
     if (result.unlockedNext) {
@@ -439,25 +439,28 @@ function drillWeakSpot() {
 }
 
 // Keeps the opening dropdown's locked/unlocked options and the progress
-// line under the title in sync with curriculum state.
+// line under the title in sync with curriculum state. Depth/streak are
+// shown for the color currently selected -- White and Black progress
+// through the same opening independently.
 function refreshCurriculumUI() {
-    var unlocked = unlockedOpenings()
     $select.find('option').each(function () {
-        var id = $(this).val()
-        $(this).prop('disabled', unlocked.indexOf(id) === -1)
+        $(this).prop('disabled', !isOpeningUnlocked($(this).val()))
     })
 
-    if (!currentOpeningId || unlocked.indexOf(currentOpeningId) === -1) {
+    if (!currentOpeningId || !isOpeningUnlocked(currentOpeningId)) {
         $progress.text('')
         return
     }
 
-    var cap = depthCapFor(currentOpeningId)
+    var colorLabel = userColor === 'w' ? 'White' : 'Black'
+    var cap = depthCapFor(currentOpeningId, userColor)
     var max = maxDepths[currentOpeningId] || cap
     if (cap >= max) {
-        $progress.text('Fully unlocked (' + max + ' plies)')
+        $progress.text('Fully unlocked as ' + colorLabel + ' (' + max + ' plies)')
     } else {
-        $progress.text('Depth ' + cap + '/' + max + ' plies · streak ' + streakFor(currentOpeningId) + '/' + streakGoal() + ' to go deeper')
+        $progress.text(
+            'As ' + colorLabel + ': depth ' + cap + '/' + max + ' plies · streak ' + streakFor(currentOpeningId, userColor) + '/' + streakGoal() + ' to go deeper'
+        )
     }
 }
 
