@@ -43,6 +43,17 @@ var $streakGoalInput = $('#streak-goal')
 var $drillCount = $('#drill-count')
 
 var AUTO_MOVE_DELAY = 600
+// Long enough to actually read the "Line complete!" / "Opening mastered!"
+// message before it moves on, short enough not to feel like waiting around.
+var AUTO_CONTINUE_DELAY = 2200
+var autoContinueTimer = null
+
+function cancelAutoContinue() {
+    if (autoContinueTimer) {
+        clearTimeout(autoContinueTimer)
+        autoContinueTimer = null
+    }
+}
 
 function playSound(name) {
     new Audio('static/sound/' + name + '.mp3').play().catch(function () {})
@@ -60,6 +71,31 @@ function getNodeAtPath(path) {
         node = node.children[path[i]]
     }
     return node
+}
+
+// The specific named line the current position belongs to, e.g. "Nimzo-
+// Indian Defense: Sämisch Variation" -- not just the family title shown
+// once at session start. Most positions are just steps toward a named
+// endpoint and carry no name of their own, so this walks the path and
+// keeps the most recent one seen, falling back to the opening's own name
+// if nothing along the way has been tagged (true for the whole line on
+// hand-curated openings that have no per-position source names at all).
+function currentVariationName(fallback) {
+    var name = fallback
+    var node = currentTree
+    for (var i = 0; i < currentPath.length; i++) {
+        node = node.children[currentPath[i]]
+        if (node.name) name = node.name
+    }
+    return name
+}
+
+function refreshVariationLabel() {
+    var opening = openingsData.find(function (o) {
+        return o.id === currentOpeningId
+    })
+    if (!opening) return
+    $title.text(currentVariationName(opening.name))
 }
 
 // All legal destinations for the side to move, in the shape chessground
@@ -252,6 +288,7 @@ function onUserMove(orig, dest) {
     currentPath = quizPath.concat([index])
     lastMove = [orig, dest]
     syncBoard()
+    refreshVariationLabel()
     playSound(move.captured ? 'Capture' : 'Move')
     maybeAutoPlay({
         path: currentPath,
@@ -287,6 +324,7 @@ function maybeAutoPlay(node) {
         currentPath = node.path.concat([index])
         lastMove = [from, to]
         syncBoard()
+        refreshVariationLabel()
         playSound(computerMove.captured ? 'Capture' : 'Move')
         setResult('Computer played: ' + child.san, 'info')
 
@@ -303,11 +341,13 @@ function maybeAutoPlay(node) {
 
 // A line just finished — either the book really ran out, or (during a
 // normal, curriculum-tracked session) the player hit their current depth
-// cap. Score it toward curriculum progression when that applies, and
-// surface whatever changed.
+// cap. Score it toward curriculum progression when that applies, surface
+// whatever changed, and queue up the next attempt automatically -- same
+// thing Continue does, just without needing a click every single time.
 function handleLineComplete() {
     if (!progressionActive) {
         setResult('Line complete! Nice work.', 'success')
+        queueAutoContinue()
         return
     }
 
@@ -326,6 +366,15 @@ function handleLineComplete() {
     } else {
         setResult('Line complete! Nice work.', 'success')
     }
+    queueAutoContinue()
+}
+
+function queueAutoContinue() {
+    cancelAutoContinue()
+    autoContinueTimer = setTimeout(function () {
+        autoContinueTimer = null
+        if (currentOpeningId) loadOpening(currentOpeningId)
+    }, AUTO_CONTINUE_DELAY)
 }
 
 function loadOpening(openingId) {
@@ -334,6 +383,8 @@ function loadOpening(openingId) {
     })
     if (!opening) return
 
+    cancelAutoContinue()
+
     currentOpeningId = openingId
     currentTree = opening.tree
     currentPath = []
@@ -341,7 +392,7 @@ function loadOpening(openingId) {
     game = new Chess()
     progressionActive = true
     sessionClean = true
-    $title.text(opening.name)
+    refreshVariationLabel()
     refreshCurriculumUI()
 
     ensureBoard(fullBoardConfig())
@@ -371,6 +422,7 @@ function drillWeakSpot() {
     })
     var replay = replayPath(opening, entry.path)
 
+    cancelAutoContinue()
     progressionActive = false
     userColor = entry.userColor
     $colorSelect.val(userColor)
@@ -380,7 +432,7 @@ function drillWeakSpot() {
     game = replay.game
     currentPath = replay.currentPath
     lastMove = replay.lastMove
-    $title.text(opening.name + ' — weak spot')
+    $title.text(currentVariationName(opening.name) + ' — weak spot')
 
     ensureBoard(fullBoardConfig())
     playSound('Confirmation')

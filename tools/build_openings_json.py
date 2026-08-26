@@ -20,6 +20,7 @@ def node_to_tree(node):
             {
                 "uci": child.move.uci(),
                 "san": child.san(),
+                **({"name": child.comment} if child.comment else {}),
                 **node_to_tree(child),
             }
             for child in node.variations
