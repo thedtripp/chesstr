@@ -429,6 +429,17 @@ $guidedToggle.on('change', function () {
     if (cg) syncBoard()
 })
 
+// 'input' fires on every keystroke/spinner-click, so the status line
+// updates live -- 'change' (blur/Enter) only fires once editing is done,
+// which would otherwise leave the display stale until you click away.
+// 'input' deliberately doesn't rewrite the field's own text (so it isn't
+// fighting a value you're still mid-typing); 'change' normalizes it to
+// the clamped result once you're finished.
+$streakGoalInput.on('input', function () {
+    setStreakGoal(parseInt($streakGoalInput.val(), 10))
+    refreshCurriculumUI()
+})
+
 $streakGoalInput.on('change', function () {
     var applied = setStreakGoal(parseInt($streakGoalInput.val(), 10))
     $streakGoalInput.val(applied)
